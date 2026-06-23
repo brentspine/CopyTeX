@@ -1,7 +1,7 @@
 (function () {
-	const VERSION_ID = "1.0";
-	
     'use strict';
+
+	const VERSION_ID = "1.0";
 
     function showToast(message) {
         const toast = document.createElement('div');
@@ -47,24 +47,24 @@
             el.style.cursor = 'pointer';
             el.addEventListener('click', handleClick);
         });
-        
-				document.addEventListener('copy', e => {
-				    const sel = window.getSelection();
-				    if (!sel || sel.isCollapsed) return;
-				
-				    const frag = sel.getRangeAt(0).cloneContents();
-				    frag.querySelectorAll('.katex').forEach(k => {
-				        const latex = k.querySelector('annotation')?.textContent?.trim();
-				        if (latex) k.replaceWith(document.createTextNode(latex));
-				    });
-				
-				    const div = document.createElement('div');
-				    div.appendChild(frag);
-				    e.clipboardData.setData('text/plain', div.textContent);
-				    e.clipboardData.setData('text/html', div.innerHTML);
-				    e.preventDefault(); // stop the native copy
-				});
     }
+
+    document.addEventListener('copy', e => {
+        const sel = window.getSelection();
+        if (!sel || sel.isCollapsed) return;
+
+        const frag = sel.getRangeAt(0).cloneContents();
+        frag.querySelectorAll('.katex').forEach(k => {
+            const latex = k.querySelector('annotation')?.textContent?.trim();
+            if (latex) k.replaceWith(document.createTextNode(latex));
+        });
+
+        const div = document.createElement('div');
+        div.appendChild(frag);
+        e.clipboardData.setData('text/plain', div.textContent);
+        e.clipboardData.setData('text/html', div.innerHTML);
+        e.preventDefault();
+    });
 
     const observer = new MutationObserver(() => updateListeners());
     observer.observe(document.body, { childList: true, subtree: true });
