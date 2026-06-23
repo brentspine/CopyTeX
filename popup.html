@@ -271,6 +271,98 @@
         }
 
         .subdomain-btns button:hover { border-color: #4f8ef7; color: #4f8ef7; }
+
+        /* Stats */
+        .stats-overview {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .stat-card {
+            flex: 1;
+            background: #222;
+            border: 1px solid #2e2e2e;
+            border-radius: 7px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #4f8ef7;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-type-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .stat-type-name { font-size: 12px; color: #888; text-transform: capitalize; }
+        .stat-type-count { font-size: 12px; color: #ccc; font-weight: 600; }
+
+        .stats-site-title {
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 6px;
+        }
+
+        .stats-site-list {
+            border: 1px solid #2a2a2a;
+            border-radius: 7px;
+            max-height: 120px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #3a3a3a transparent;
+        }
+
+        .stats-site-row {
+            display: flex;
+            align-items: center;
+            padding: 6px 10px;
+            border-bottom: 1px solid #242424;
+            gap: 6px;
+        }
+
+        .stats-site-row:last-child { border-bottom: none; }
+
+        .stats-site-name {
+            flex: 1;
+            font-size: 11px;
+            font-family: 'Courier New', monospace;
+            color: #ccc;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .stats-site-count {
+            font-size: 11px;
+            color: #4f8ef7;
+            font-weight: 600;
+            min-width: 28px;
+            text-align: right;
+        }
+
+        .stats-site-chars {
+            font-size: 10px;
+            color: #555;
+            min-width: 52px;
+            text-align: right;
+        }
     </style>
 </head>
 <body>
@@ -285,6 +377,13 @@
             <span>KaTeX</span>
             <label class="switch">
                 <input type="checkbox" id="feature-katex">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="toggle-row" style="margin-top:10px;">
+            <span>MathJax</span>
+            <label class="switch">
+                <input type="checkbox" id="feature-mathjax">
                 <span class="slider"></span>
             </label>
         </div>
@@ -322,6 +421,25 @@
                 </div>
             </div>
         </div>
+    </section>
+
+    <section>
+        <div class="section-title">Stats</div>
+
+        <div class="stats-overview" id="stats-overview" style="display:none;">
+            <div class="stat-card">
+                <span class="stat-value" id="stat-total-count">0</span>
+                <span class="stat-label">copies</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value" id="stat-total-chars">0</span>
+                <span class="stat-label">characters</span>
+            </div>
+        </div>
+
+        <div id="stats-by-type" style="display:none;"></div>
+        <div id="stats-by-site" style="display:none;"></div>
+        <p class="empty-state" id="stats-empty">No copies recorded yet.</p>
     </section>
 
     <script src="popup.js"></script>
