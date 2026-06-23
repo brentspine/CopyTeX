@@ -1,5 +1,5 @@
 # CopyTeX
-Chrome Extension for copying KaTeX & MathJax from websites by clicking
+Chrome Extension for copying KaTeX & MathJax from websites
 
 #### KaTeX
 
