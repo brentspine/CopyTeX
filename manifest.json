@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "CopyTeX - Copy LaTeX KaTeX Mathjax",
     "version": "1.0",
-    "description": "Allows copying scientific annotations on sites like ChatGPT. Early version, only for ChatGPT",
+    "description": "Click or copy any KaTeX / MathJax formula on any website to get the LaTeX source — works on ChatGPT, Khan Academy, Wikipedia, and more.",
     "action": {
         "default_popup": "popup.html"
     },
@@ -14,7 +14,7 @@
     },
     "content_scripts": [
         {
-            "matches": ["https://chatgpt.com/*"],
+            "matches": ["<all_urls>"],
             "js": ["content.js"],
             "run_at": "document_end"
         }

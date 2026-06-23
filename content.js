@@ -41,9 +41,12 @@
             .catch(() => showToast('Failed to copy annotation.'));
     }
 
+    const attachedElements = new WeakSet();
+
     function updateListeners() {
-        const mathElements = document.querySelectorAll('.katex');
-        mathElements.forEach(el => {
+        document.querySelectorAll('.katex').forEach(el => {
+            if (attachedElements.has(el)) return;
+            attachedElements.add(el);
             el.style.cursor = 'pointer';
             el.addEventListener('click', handleClick);
         });
