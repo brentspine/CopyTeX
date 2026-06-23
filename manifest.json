@@ -7,10 +7,10 @@
         "default_popup": "popup.html"
     },
     "icons": {
-        "16": "copytex_16.png",
-        "32": "copytex_32.png",
-        "48": "copytex_48.png",
-        "128": "copytex_128.png"
+        "16": "icons/copytex_16.png",
+        "32": "icons/copytex_32.png",
+        "48": "icons/copytex_48.png",
+        "128": "icons/copytex_128.png"
     },
     "content_scripts": [
         {
