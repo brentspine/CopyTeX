@@ -19,6 +19,7 @@
             "run_at": "document_end"
         }
     ],
+    "permissions": ["storage", "activeTab"],
     "browser_specific_settings": {
         "gecko": {
             "id": "{b93975aa-c001-3440-7903-49073714c431}",

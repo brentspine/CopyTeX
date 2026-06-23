@@ -1,28 +1,329 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Popup</title>
+    <meta charset="UTF-8">
+    <title>CopyTeX</title>
     <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            width: 100vh;
-            background-color: #1a1a1a;
-            color: #ffffff;
-            font-family: Arial, sans-serif;
+            width: 320px;
+            background: #1a1a1a;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 14px;
         }
 
-        .placeholder {
-            text-align: center;
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 16px;
+            border-bottom: 1px solid #2a2a2a;
         }
+
+        .header img { width: 22px; height: 22px; }
+        .header h1 { font-size: 15px; font-weight: 600; }
+
+        section {
+            padding: 14px 16px;
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .section-title {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        /* Feature toggle row */
+        .toggle-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 22px;
+            flex-shrink: 0;
+        }
+
+        .switch input { opacity: 0; width: 0; height: 0; }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background: #444;
+            border-radius: 22px;
+            transition: background 0.2s;
+        }
+
+        .slider::before {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            left: 3px;
+            bottom: 3px;
+            background: #fff;
+            border-radius: 50%;
+            transition: transform 0.2s;
+        }
+
+        input:checked + .slider { background: #4f8ef7; }
+        input:checked + .slider::before { transform: translateX(18px); }
+
+        /* Mode segmented control */
+        .mode-switch {
+            position: relative;
+            display: flex;
+            background: #252525;
+            border-radius: 8px;
+            padding: 3px;
+            margin-bottom: 12px;
+        }
+
+        .mode-pill {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: calc(50% - 3px);
+            height: calc(100% - 6px);
+            background: #4f8ef7;
+            border-radius: 6px;
+            transition: left 0.2s ease;
+        }
+
+        .mode-pill.whitelist { left: calc(50%); }
+
+        .mode-option {
+            flex: 1;
+            text-align: center;
+            padding: 7px 0;
+            font-size: 12px;
+            font-weight: 500;
+            color: #666;
+            cursor: pointer;
+            border-radius: 6px;
+            user-select: none;
+            position: relative;
+            z-index: 1;
+            transition: color 0.2s;
+        }
+
+        .mode-option.active { color: #fff; }
+
+        .mode-desc {
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        /* Domain list */
+        .list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .list-title { font-size: 11px; color: #888; }
+
+        .add-btn {
+            background: none;
+            border: 1px solid #3a3a3a;
+            color: #888;
+            padding: 3px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 11px;
+            transition: border-color 0.15s, color 0.15s;
+        }
+
+        .add-btn:hover { border-color: #4f8ef7; color: #4f8ef7; }
+
+        .domain-list {
+            max-height: 150px;
+            overflow-y: auto;
+            border: 1px solid #2a2a2a;
+            border-radius: 7px;
+            scrollbar-width: thin;
+            scrollbar-color: #3a3a3a transparent;
+        }
+
+        .domain-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 7px 10px;
+            border-bottom: 1px solid #242424;
+        }
+
+        .domain-item:last-child { border-bottom: none; }
+
+        .domain-name {
+            font-size: 12px;
+            font-family: 'Courier New', monospace;
+            color: #ccc;
+        }
+
+        .remove-btn {
+            background: none;
+            border: none;
+            color: #555;
+            cursor: pointer;
+            font-size: 16px;
+            line-height: 1;
+            padding: 0 2px;
+            transition: color 0.15s;
+        }
+
+        .remove-btn:hover { color: #ff5555; }
+
+        .empty-state {
+            font-size: 11px;
+            color: #555;
+            padding: 10px 0 2px;
+            line-height: 1.5;
+        }
+
+        /* Add domain inline form */
+        .add-form {
+            margin-top: 10px;
+            background: #222;
+            border: 1px solid #333;
+            border-radius: 7px;
+            overflow: hidden;
+        }
+
+        .add-form-row {
+            display: flex;
+            align-items: center;
+            padding: 7px 10px;
+            gap: 6px;
+        }
+
+        .add-form input[type="text"] {
+            flex: 1;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 12px;
+            font-family: 'Courier New', monospace;
+            outline: none;
+        }
+
+        .add-form input[type="text"]::placeholder { color: #555; }
+
+        .cancel-btn {
+            background: none;
+            border: none;
+            color: #555;
+            cursor: pointer;
+            font-size: 18px;
+            line-height: 1;
+            padding: 0;
+            transition: color 0.15s;
+        }
+
+        .cancel-btn:hover { color: #aaa; }
+
+        .subdomain-q {
+            border-top: 1px solid #2e2e2e;
+            padding: 9px 10px;
+        }
+
+        .subdomain-q p {
+            font-size: 11px;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .subdomain-q strong { color: #ccc; }
+
+        .subdomain-btns {
+            display: flex;
+            gap: 6px;
+        }
+
+        .subdomain-btns button {
+            flex: 1;
+            padding: 5px 6px;
+            border: 1px solid #3a3a3a;
+            border-radius: 5px;
+            background: none;
+            color: #888;
+            font-size: 11px;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            transition: border-color 0.15s, color 0.15s;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .subdomain-btns button:hover { border-color: #4f8ef7; color: #4f8ef7; }
     </style>
 </head>
 <body>
-    <div class="placeholder">
-        <h1>Popup is currently under development</h1>
-        <p>Please check back later for updates</p>
+    <div class="header">
+        <img src="copytex_32.png" alt="CopyTeX">
+        <h1>CopyTeX</h1>
     </div>
+
+    <section>
+        <div class="section-title">Features</div>
+        <div class="toggle-row">
+            <span>KaTeX</span>
+            <label class="switch">
+                <input type="checkbox" id="feature-katex">
+                <span class="slider"></span>
+            </label>
+        </div>
+    </section>
+
+    <section>
+        <div class="section-title">Site Filtering</div>
+
+        <div class="mode-switch">
+            <div class="mode-pill" id="mode-pill"></div>
+            <div class="mode-option active" id="opt-blacklist">Blacklist</div>
+            <div class="mode-option" id="opt-whitelist">Whitelist</div>
+        </div>
+
+        <p class="mode-desc" id="mode-desc"></p>
+
+        <div class="list-header">
+            <span class="list-title" id="list-title"></span>
+            <button class="add-btn" id="add-btn">+ Add domain</button>
+        </div>
+
+        <div class="domain-list" id="domain-list"></div>
+        <p class="empty-state" id="empty-state"></p>
+
+        <div class="add-form" id="add-form" style="display:none;">
+            <div class="add-form-row">
+                <input type="text" id="domain-input" placeholder="example.com" autocomplete="off" spellcheck="false">
+                <button class="cancel-btn" id="cancel-add" title="Cancel">×</button>
+            </div>
+            <div class="subdomain-q" id="subdomain-q" style="display:none;">
+                <p>Include all subdomains of <strong id="domain-preview"></strong>?</p>
+                <div class="subdomain-btns">
+                    <button id="btn-subdomains"></button>
+                    <button id="btn-exact"></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="popup.js"></script>
 </body>
 </html>
