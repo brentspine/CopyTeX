@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CopyTeX</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      width: 280px;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #0f0f1a;
+      color: #e0e0f0;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px;
+      background: #1a1a2e;
+      border-bottom: 1px solid #2a2a4a;
+    }
+
+    header .logo {
+      font-size: 22px;
+    }
+
+    header h1 {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: #a9a4ff;
+    }
+
+    header span.version {
+      margin-left: auto;
+      font-size: 11px;
+      color: #666;
+    }
+
+    .section {
+      padding: 14px 16px;
+      border-bottom: 1px solid #1e1e35;
+    }
+
+    .section h2 {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #666;
+      margin-bottom: 10px;
+    }
+
+    .status-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .status-label {
+      font-size: 13px;
+      color: #c0c0d8;
+    }
+
+    .badge {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #4ade80;
+    }
+
+    .badge::before {
+      content: '';
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #4ade80;
+      box-shadow: 0 0 6px #4ade80;
+    }
+
+    .supported-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .supported-list li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #c0c0d8;
+    }
+
+    .supported-list li .icon {
+      font-size: 15px;
+      width: 20px;
+      text-align: center;
+    }
+
+    .pill {
+      margin-left: auto;
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+
+    .pill.active {
+      background: #1e3a2f;
+      color: #4ade80;
+    }
+
+    .pill.soon {
+      background: #2a2a1e;
+      color: #facc15;
+    }
+
+    .hint {
+      padding: 12px 16px;
+      font-size: 12px;
+      color: #555;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    footer {
+      padding: 10px 16px;
+      background: #0a0a15;
+      font-size: 11px;
+      color: #333;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <span class="logo">∫</span>
+    <h1>CopyTeX</h1>
+    <span class="version">v1.0.0</span>
+  </header>
+
+  <div class="section">
+    <h2>Status</h2>
+    <div class="status-row">
+      <span class="status-label">Extension active</span>
+      <span class="badge">Running</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Supported Renderers</h2>
+    <ul class="supported-list">
+      <li>
+        <span class="icon">𝐊</span>
+        KaTeX
+        <span class="pill active">Active</span>
+      </li>
+      <li>
+        <span class="icon">𝐌</span>
+        MathJax
+        <span class="pill soon">Soon</span>
+      </li>
+      <li>
+        <span class="icon">𝐋</span>
+        MathML
+        <span class="pill soon">Soon</span>
+      </li>
+    </ul>
+  </div>
+
+  <p class="hint">Hover over any formula to highlight it, then click to copy the original LaTeX source.</p>
+
+  <footer>CopyTeX &mdash; open source</footer>
+</body>
+</html>
