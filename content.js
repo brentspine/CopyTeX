@@ -172,7 +172,6 @@
         const observer = new MutationObserver(() => updateListeners(cfg));
         observer.observe(document.body, { childList: true, subtree: true });
         updateListeners(cfg);
-        console.log(`CopyTeX v${VERSION_ID} loaded on ${location.hostname}`);
     });
 
 })();
