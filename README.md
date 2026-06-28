@@ -1,6 +1,9 @@
 # CopyTeX
 Chrome Extension for copying KaTeX & MathJax from websites
 
+Chrome Web Store: https://chromewebstore.google.com/detail/copytex-copy-latex-katex/pjghgggdfbfogeejfoghmcpacbbjnmel?hl=de&authuser=0
+Firefox: Yet to be submitted
+
 #### KaTeX
 
 Just click on the KaTeX element and it will be copied to your clipboard
